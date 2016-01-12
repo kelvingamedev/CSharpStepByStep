@@ -9,24 +9,27 @@ using System.Windows.Controls;
 
 namespace Drawing
 {
-    class Circle : DrawingShape, IDraw, IColor
+    class Square :  DrawingShape, IDraw, IColor
     {
-        public Circle(int radius) : base(radius)
-        {
+        public Square(int sideLenght) : base(sideLenght)
+        { 
         }
 
         public override void Draw(Canvas canvas)
         {
             if(this.shape != null)
             {
-                canvas.Children.Remove(this.shape);
+                canvas.Children.Remove(this.shape);                   
             }
             else
             {
-                this.shape = new Ellipse();
+                this.shape = new Rectangle();
             }
 
             base.Draw(canvas);
         }
-    }
+
+  
+     }
+    
 }

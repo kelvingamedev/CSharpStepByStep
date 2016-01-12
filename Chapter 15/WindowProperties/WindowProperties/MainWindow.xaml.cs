@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,7 +30,8 @@ namespace WindowProperties
 
         private void sizeChanged()
         {
-            // to do
+            width.Text = this.ActualWidth.ToString();
+            height.Text = this.ActualHeight.ToString();
         }
 
         private void mainWindowSizeChanged(object sender, SizeChangedEventArgs e)

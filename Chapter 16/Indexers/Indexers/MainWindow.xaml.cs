@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,12 +29,25 @@ namespace Indexers
 
         private void findPhoneClick(object sender, RoutedEventArgs e)
         {
-            // to do
+            string text = name.Text;
+            if(!String.IsNullOrWhiteSpace(name.Text))
+            {
+                Name personsName = new Name(text);
+                PhoneNumber personsPhoneNumber = this.phoneBook[personsName];
+                phoneNumber.Text = personsPhoneNumber.Text;
+
+            }
         }
 
         private void findNameClick(object sender, RoutedEventArgs e)
         {
-            // to do
+            string text = phoneNumber.Text;
+            if(!String.IsNullOrWhiteSpace(text))
+            {
+                PhoneNumber personsPhoneNumber = new PhoneNumber(text);
+                Name personsName = this.phoneBook[personsPhoneNumber];
+                name.Text = personsName.Text;
+            }
         }
 
         private void addClick(object sender, RoutedEventArgs e)
