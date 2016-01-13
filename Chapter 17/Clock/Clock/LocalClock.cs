@@ -8,13 +8,15 @@ namespace Delegates
 	class LocalClock
 	{
         private DispatcherTimer ticker = null;
-        private TextBox display = null;
+        //private TextBox display = null;
         private TimeZoneInfo timeZoneForThisClock = null;
+        public delegate void DisplayTime(string time);
+        public event DisplayTime LocalClockTick;
 
-        public LocalClock(TextBox displayBox)
+        public LocalClock()
         {
             this.timeZoneForThisClock = TimeZoneInfo.Local;
-            this.display = displayBox;
+            //this.display = displayBox;
         }
 
         public void StartLocalClock()
@@ -42,7 +44,11 @@ namespace Delegates
 
 		private void RefreshTime(int hh, int mm, int ss)
 		{
-			this.display.Text = string.Format("{0:D2}:{1:D2}:{2:D2}", hh, mm, ss);
+            if (this.LocalClockTick != null)
+            {
+                this.LocalClockTick(string.Format("{0:D2}:{1:D2}:{2:D2}", hh, mm, ss));
+            }
+
 		}
     }
 }

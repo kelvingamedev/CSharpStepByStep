@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +17,7 @@ namespace Delegates
 {
     public partial class ClockWindow : Window
     {
+        private Controller controller = new Controller();
         private LocalClock localClock = null;
         private EuropeanClock londonClock = null;
         private AmericanClock newYorkClock = null;
@@ -25,20 +26,41 @@ namespace Delegates
         public ClockWindow()
         {
             InitializeComponent();
-            localClock = new LocalClock(localTimeDisplay);
+            localClock = new LocalClock();
             londonClock = new EuropeanClock(londonTimeDisplay);
             newYorkClock = new AmericanClock(newYorkTimeDisplay);
             tokyoClock = new JapaneseClock(tokyoTimeDisplay);
+
+            controller.StartClocks += localClock.StartLocalClock;
+            controller.StartClocks += londonClock.StartEuropeanClock;
+            controller.StartClocks += newYorkClock.StartAmericanClock;
+            controller.StartClocks += tokyoClock.StartJapaneseClock;
+
+            controller.StopClocks += localClock.StopLocalClock;
+            controller.StopClocks += londonClock.StopEuropeanClock;
+            controller.StopClocks += newYorkClock.StopAmericanClock;
+            controller.StopClocks += tokyoClock.StopJapaneseClock;
+            
+        }
+
+        private void displayLocalTime(string time)
+        {
+            localTimeDisplay.Text = time;
         }
 
         private void startClick(object sender, RoutedEventArgs e)
         {
-
+            controller.StartClocks();
+            localClock.LocalClockTick += displayLocalTime;
+            stop.IsEnabled = true;
+            start.IsEnabled = false;
         }
 
         private void stopClick(object sender, RoutedEventArgs e)
         {
-
+            controller.StopClocks();
+            stop.IsEnabled = false;
+            start.IsEnabled = true;
         }
     }
 }
