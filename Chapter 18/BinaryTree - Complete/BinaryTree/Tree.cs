@@ -1,11 +1,12 @@
-﻿using System;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace BinaryTree
 {
-    public class Tree<TItem> where TItem : IComparable<TItem>
+    public class Tree<TItem> : IEnumerable<TItem> where TItem : IComparable<TItem> 
     {
         public Tree(TItem nodeValue)
         {
@@ -41,6 +42,14 @@ namespace BinaryTree
             }
         }
 
+        public void Insert(params TItem[] newItem)
+        {
+            foreach(TItem T in newItem)
+            {
+                this.Insert(T);
+            }
+        }
+
         public void WalkTree()
         {
             if (this.LeftTree != null)
@@ -55,6 +64,19 @@ namespace BinaryTree
                 this.RightTree.WalkTree();
             }
         }
+
+
+        IEnumerator<TItem> IEnumerable<TItem>.GetEnumerator()
+        {
+            return new TreeEnumerator<TItem>(this);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+      
 
         public TItem NodeData { get; set; }
         public Tree<TItem> LeftTree { get; set; }
